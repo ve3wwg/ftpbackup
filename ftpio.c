@@ -14,6 +14,7 @@
 #include <string.h>
 #include <signal.h>
 #include <errno.h>
+#include <string.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 

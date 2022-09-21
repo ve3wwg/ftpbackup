@@ -11,11 +11,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <string.h>
 #include <signal.h>
 #include <errno.h>
+#include <string.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <string.h>
 #include <assert.h>
 
 #include "ftplib.h"

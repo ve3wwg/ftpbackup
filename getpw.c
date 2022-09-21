@@ -9,9 +9,9 @@
 #include <sys/socket.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
-#include <string.h>
 #include <signal.h>
 #include <errno.h>
+#include <string.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <termios.h>
@@ -47,7 +47,7 @@ getpw(const char *hostname,const char *userid) {
 	 * Open the tty for input since fd 0 may redirected :
 	 */
 	if ( (ttyfd = open("/dev/tty",O_RDWR)) < 0 ) {
-		fprintf(stderr,"%s: open(/dev/tty)\n",sys_errlist[errno]);
+		fprintf(stderr,"%s: open(/dev/tty)\n",strerror(errno));
 		return NULL;
 	}
 
@@ -57,7 +57,7 @@ getpw(const char *hostname,const char *userid) {
 	 * Get current tty settings :
 	 */
 	if ( tcgetattr(ttyfd,&tty0) < 0 ) {
-		fprintf(stderr,"%s: tcgetattr()\n",sys_errlist[errno]);
+		fprintf(stderr,"%s: tcgetattr()\n",strerror(errno));
 		close(ttyfd);
 		return NULL;
 	}
@@ -75,7 +75,7 @@ getpw(const char *hostname,const char *userid) {
 	}
 
 	if ( tcsetattr(ttyfd,TCSADRAIN,&tty1) < 0 ) {
-		fprintf(stderr,"%s: tcsetattr()\n",sys_errlist[errno]);
+		fprintf(stderr,"%s: tcsetattr()\n",strerror(errno));
 		close(ttyfd);
 		return NULL;
 	}
@@ -96,7 +96,7 @@ getpw(const char *hostname,const char *userid) {
 	 * Restore tty settings :
 	 */
 	if ( tcsetattr(ttyfd,TCSADRAIN,&tty0) < 0 ) {
-		fprintf(stderr,"%s: tcsetattr()\n",sys_errlist[errno]);
+		fprintf(stderr,"%s: tcsetattr()\n",strerror(errno));
 		close(ttyfd);
 		return NULL;
 	}
