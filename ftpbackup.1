@@ -1,0 +1,135 @@
+.TH FTPBACKUP 1 "15 September 1997" "FTPBACKUP 2.1"  \" -*- nroff -*-
+.SH NAME
+ftpbackup \- pipe to or from a file on an FTP server
+.SH SYNOPSIS
+.B ftpbackup
+.RB [ \-h 
+.IR host ]
+.RB [ \-P
+.IR port ]
+.RB [ \-u
+.IR userid ]
+.RB [ \-p
+.IR password ]
+.RB [ \-x ]
+.RB [ \-z ]
+.RB [ \-d
+.IR dir ]
+.RB [ \-D ]
+.BR \-b " path"
+.PP
+.B ftpbackup
+.RB [ \-h 
+.IR host ]
+.RB [ \-P
+.IR port ]
+.RB [ \-u
+.IR userid ]
+.RB [ \-p
+.IR password ]
+.RB [ \-x ]
+.RB [ \-z ]
+.RB [ \-d
+.IR dir ]
+.BI \-r " path"
+.PP
+.B ftpbackup \-\-help
+.PP
+.BR "ftpbackup \-V " "| " \-\-version
+.SH DESCRIPTION
+.BR Ftpbackup
+copies the standard input to 
+.I path
+on the FTP server
+(backup mode) or copies 
+.I path
+on the FTP server to standard output
+(restore mode). Note that
+.I path
+can be a special device name like that of a tape device.
+.PP
+.BR Ftpbackup
+performs these transfers without writing a temporary
+file on the local system.  Thus,
+.B ftpbackup
+can be used to transfer
+data created by a pipe that is larger than available free space. (The
+motivation for
+.B ftpbackup
+was backing up full file systems using
+.BR cpio (1).)
+.PP
+.B Ftpbackup
+performs all FTP transfers in binary (image) mode.
+.SH OPTIONS
+.TP
+.B \-b
+backup to remote filename from standard input.
+.TP
+.BI \-d " dir"
+change to
+.I dir
+on FTP server before beginning transfer (an attempt to create the
+directory will be made, if needed).
+.TP
+.BI \-D
+Allows ftpbackup to attempt to create the indicated directory
+in the
+.BI \-d " dir"
+option, if the directory does not exist. Its use is intended for
+the backup mode of operation.
+.TP
+.BI \-h " host"
+FTP host to use for connection (default
+.BR localhost ).
+.TP
+.B \-\-help
+print help message and exit.
+.TP
+.BI \-P " port"
+port on which to contact the FTP server (default 21).
+.TP
+.BI \-p " password"
+password.
+.TP
+.B \-r
+restore from remote filename to standard output.
+.TP
+.BI \-u " userid"
+FTP account userid (defaults to anonymous).
+.TP
+.BR \-V ", " \-\-version
+print version to standard error and exit.
+.TP
+.B \-x
+output FTP debug messages to standard error.
+.TP
+.B \-z
+Conduct the file transfer in passive mode.
+.SH SEE ALSO
+.I /usr/local/doc/ftpbackup-2.1/READ.ME
+for examples
+.SH DIAGNOSTICS
+.B Ftpbackup
+uses the following exit codes:
+.IP 0
+successful transfer or missing arguments.
+.IP 1
+conflicting arguments.
+.IP 2
+connection to FTP server failed, or
+.B SIGINT
+received during password
+entry.
+.IP 13
+error occurred during FTP transfer.
+.SH BUGS
+.PP
+.B Ftpbackup
+will not automatically create directories more than one level below
+any existing directory.
+.SH LICENSE
+.PP
+.B Gnu Public License 2
+.SH AUTHOR
+Warren W. Gay VE3WWG <ve3wwg@gmail.com>

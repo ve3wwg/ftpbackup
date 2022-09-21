@@ -1,0 +1,55 @@
+ftpbackup					Tue Sep 20 15:42:41 2022
+
+		[Now under GPL2 license]
+
+Installing under Linux should be a snap if you have a working version of
+gcc  and  its libraries installed. ftpbackup of course, relies on TCP/IP
+communications.
+
+
+You  can  just  proceed  and do 'make' if the following assumptions hold
+true in your case:
+
+	- Makefile assumes the following directories:
+
+		/usr/local/bin		for binary ftpbackup
+		/usr/local/man/man1	for ftpbackup.1 man page
+		/usr/local/doc		for ftpbackup.lsm doc.
+
+	- That you're compiling with optimization (and not debug)
+
+If the above are TRUE, then you should be able to just perform:
+
+	1. 'make'
+
+	2. 'su root'
+
+	3. 'make install'
+
+
+Otherwise, edit the Makefile and recompile:
+
+	1. Edit Makefile to suit
+
+	2. 'make distclean' to remove vestiges of last make
+
+	3. 'make'
+
+	4. Repeat with #1 as necessary
+
+
+Non GNU-Enabled Platforms:
+--------------------------
+
+For  non  Linux  platforms, you'll want to remove the -DHAVE_GETOPT_LONG
+option  from  the  makefile,  unless  you  have  the  GNU  getopt_long()
+installed  somewhere (if you have that in an unusual place, you may also
+need to update the LDOPTS= line).
+
+Most non Linux platforms will also probably need certain libraries added
+to  linking  step  in  the  makefile  in  order  to satisfy  the  TCP/IP
+networking calls. Do this in the LDOPTS= line.
+
+
+Warren W. Gay VE3WWG
+ve3wwg@gmail.com

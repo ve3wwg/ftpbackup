@@ -1,0 +1,147 @@
+ftpbackup-2.2					Tue Sep 20 21:24:17 2022
+
+This file describes the ftpbackup software, its uses, notes, and a quick
+start guide.
+
+Why ftpbackup?
+==============
+
+If  you  don't  have adequate backup facilities on your current host (or
+server), you  can  now conveniantly use ftp backup to back to or restore
+from another systems disk or tape drive by using its ftp server.
+
+The  ftp  client  program by itself will not do this for you, unless you
+have enough disk space to create a file to transfer first.  The standard
+ftp  client  program only knows how to transfer existing files.  This is
+why ftpbackup is needed.
+
+By  piping  the  backup  from  cpio  or  tar  (or your favourite trusted
+utility)  into  ftpbackup, it  is able to  transfer  your backup data to
+another  hosts  disk  or  its  tape drive.  The reverse  can be done for
+restores.
+
+Every  self respecting UNIX system has a ftp server.  This saves you the
+hassle of  porting a special application to each remote system you might
+use for this purpose.
+
+See file CHANGES, for what's new in this release.
+
+Command Options:
+================
+
+See next section for quick start if you're in a hurry.
+
+See  file INSTALL for make instructions (real easy for Linux: 'make' and
+then 'make install').
+
+
+$ ftpbackup --help
+
+ftpbackup -h host [-P port] -u userid [-p pw] [-d dir] [-D] [-x] [-z] <mode>
+
+	-h host		ftp host name to connect to
+	-P port		port # to use (defaults to 21)
+	-u userid	account userid (defaults as anonymous)
+	-p passwd	password
+
+Other options:
+	-x		ftp debug messages to stderr
+	-z		Use passive mode for the transfer
+	-d dir		Change working directory to dir
+	-D		Make the directory if it does not exist.
+	--help		Print help message and exit
+	--version	Print version info and exit
+
+Mode:
+	-b filename	Backup to remote filename from stdin
+	-r filename	Restore from remote filename to stdout
+
+The host name defaults to localhost, so that you can test it out on your
+own local ftp server. The ftp port number defaults to the normal port 21
+for ftp.
+
+The  userid  defaults  to "anonymous" if you don't supply the -u option.
+The password option  if not  supplied  on  the  command line  with -p is
+prompted  from  the  terminal.  Note  that  -p  option  is  necessary if
+ftpbackup is  run  in the  background without a controlling terminal (it
+will be unable to prompt for a password).
+
+Normally  you  don't  want  to  supply  passwords  on a command line for
+obvious  security  reasons,  but  you  DO want to do this if its just an
+anonymous  login (your password is usually just an email address in this
+case).
+
+The  -d  option is optional.  When given, ftpbackup first sends a change
+directory  command  to  the  ftp server,  so that you can operate in the
+correct remote ftp directory for your backup or restore operation.
+
+The  -D option is new.  If the directory specified by the -d option does
+not  exist,  the  -D  option  tells ftpbackup to  attempt  to  create  a
+directory first (only the last level directory is created however).
+
+Finally  your  mode  of  operation must be given: either -b or -r option
+must  be given and followed by the remote filename to use (this can be a
+pathname).  All ftp transfers  are  explicitly set to use BINARY (image)
+transfers.
+
+
+Quick Start (Examples):
+=======================
+
+Backup using cpio and ftpbackup
+
+# find /home/myhome -print | cpio -ocv | ftpbackup -h host -u myid -d /pub/mystuff/ -b myhome.cpio
+host Password: ....
+
+In  this example, the cpio backup output is piped into ftpbackup so that
+it can store your backup on the remote host 'host', using userid 'myid',
+under remote directory /pub/mystuff/, into remote file name myhome.cpio.
+
+Since no -p option was given, the user is prompted from the terminal for
+the password (it does not echo, unless the userid is anonymous).
+
+
+Restore using ftpbackup and cpio
+
+# ftpbackup -h host -u myid -r /pub/mystuff/myhome.cpio | cpio -icv
+host Password: ....
+
+In  this  case,  ftpbackup opens remote file /pub/mystuff/myhome.cpio to
+retrieve and pass to cpio via its standard output.  Notice here, that we
+demonstrated a pathname in the -r option which allowed us to drop the -d
+option for the directory. Either way is valid.
+
+
+Backup using Tar and Gzip to Remote Tape:
+
+# tar cvf - / | gzip | ftpbackup -h host -u myid -b /dev/rmt/0cn
+
+In  this  example,  we used tar to perform a backup of the entire system
+(starting with  root),  compressed  the data using gzip, and storing the
+backup on remote tape drive /dev/rmt/0cn.
+
+NOTE  HOWEVER(!),  that  ftpbackup  is  not  able to rewind tapes, erase
+tapes,  set  densities,  or do multi-volume backups. The limitation here
+rests  with the remote server which is your standard ftp server.  Normal
+ftp servers are not equipped to do this sort of thing.
+
+
+License:
+========
+
+GNU Public License 2
+
+Warren W. Gay VE3WWG
+ve3wwg@gmail.com
+
+
+************************************************************************
+
+This  software  is  provided  ASIS,  under  the  Gnu  Public  License 2.
+Absolutely  no  warrantee is expressed or implied. Backups, backup plans
+and disaster recovery are _your_ responsibility, not mine.
+
+************************************************************************
+
+Warren W. Gay VE3WWG
+ve3wwg@gmail.com

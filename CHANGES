@@ -1,0 +1,42 @@
+ftpbackup-2.2 Changes				Tue Sep 20 21:22:27 2022
+
+ - Now supports passive mode transfers using the -z option.
+ - github.com now hosts the most up to date version.
+
+ftpbackup-2.1C Changes				Thu Feb 23 21:53:32 2012
+
+ - Minor change to ftpbackup.c to avoid compile time warning messages.
+ - import the source code into SF's SVN
+
+
+ftpbackup-2.1 Changes				Mon Sep 15 23:09:13 1997
+
+With  the  help  of  Hal Wine <hal@dtor.com>, ftpbackup-2.1 comes to you
+with a few small fixes, and a couple of new features.  Additionally, Hal
+has been kind enough to provide us a man page as well.
+
+Hal  provided  a patch to me that caused ftpbackup to create a directory
+(for backup)  if  it  did not  exist. I have chosen to make this feature
+optional and it is enabled with the -D option.
+
+CHANGES:
+
+ - New man page ftpbackup.1 (thanks Hal)
+ - New -D option to allow creation of a directory
+ - Now supports the venerable --version option (or -V) to display version
+   info (Hal's idea)
+ - ftpbackup is under RCS control (at my QTH at least)
+ - I trimmed the boxy comments in the source, and cleaned up the source code
+ - Bad options invoke --help display (Hal)
+ - --help info corrections (Hal)
+ - READ.ME file corrections (Hal)
+ - Makefile overhaul (formerly named 'makefile'). Some of these changes
+   were inspired at Hal's suggestion.
+ - LSM file fixed and updated
+
+LAST MINUTE CHANGE: 2.0 -> 2.1
+
+ - Placed under the Gnu Public License 2 (GPL2)
+
+Warren W. Gay VE3WWG
+ve3wwg@gmail.com
