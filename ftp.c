@@ -68,6 +68,8 @@ ftpOpen(const char *host,int port) {
 	 * Attempt Connection :
 	 */
 	if ( connect(s,(struct sockaddr *)&sin,sizeof sin) ) {
+		fprintf(stderr,"%s: connect to %s port %d\n",
+			strerror(errno),host,port);
 		close(s);
 		return -1;
 	}
