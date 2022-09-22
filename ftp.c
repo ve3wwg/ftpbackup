@@ -300,6 +300,9 @@ badfmt:			fprintf(stderr,"Unable to parse PASSV response '%s', cp=%p\n",ftpBuf,c
 		 * Attempt Connection :
 		 */
 		if ( connect(s2,(struct sockaddr *)&sin,sizeof sin) ) {
+			fprintf(stderr,"%s: connect to %s port %d\n",
+				strerror(errno),remhost,port);
+			fflush(stderr);
 			close(s2);
 			return -1;
 		}
