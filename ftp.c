@@ -49,13 +49,13 @@ ftpOpen(const char *host,int port) {
 	 * Locate the Host's IP Address.
 	 */
 	if ( (hp = gethostbyname(host)) == NULL )
-		return -2;
+		return -errno;
 
 	/*
 	 * Obtain a socket to use :
 	 */
 	if ( (s = socket(AF_INET,SOCK_STREAM,0)) < 0 )
-		return -2;
+		return -errno;
 
 	/*
 	 * Setup a connect address :
@@ -68,10 +68,9 @@ ftpOpen(const char *host,int port) {
 	 * Attempt Connection :
 	 */
 	if ( connect(s,(struct sockaddr *)&sin,sizeof sin) ) {
-		fprintf(stderr,"%s: connect to %s port %d\n",
-			strerror(errno),host,port);
+		int er = errno;
 		close(s);
-		return -1;
+		return -er;
 	}
 
 	/*
@@ -80,7 +79,7 @@ ftpOpen(const char *host,int port) {
 	if ( ftpio_GetResp(s) < 0 ) {
 		close(s);
 		errno = EINVAL;
-		return -1;
+		return -errno;
 	}
 
 	/*

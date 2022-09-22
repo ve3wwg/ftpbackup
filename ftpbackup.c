@@ -197,8 +197,8 @@ main(int argc,char **argv) {
 	 * Make ftp connection to the server :
 	 */
 	if ( (s = ftpOpen(host,port)) < 0 ) {
-		fprintf(stderr,"Unable to connect to %s port %d\n",
-			host,port);
+		fprintf(stderr,"%s: Unable to connect to %s port %d\n",
+			strerror(-s),host,port);
 		exit(2);
 	}
 
